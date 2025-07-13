@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikat Yoxlama Sistemi - Cyber Sentinels</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Ug5-mc2AZ2sRGRf2LitY4ks5pUOUUgyxV1JWiSpiB1D6CNQaBk7jeButfucyNIObHLsmJcf5dt-7uTyqOCqaoLcJtwBRb9zTCi4VjtsaqKBXUX50fGOSFPeQKUB_R3i-AJa9TMWhp1mPwdeFEgARl0ZDqXySwZu6QP-IHtrDYak6GmpAGfUIp9hVb2ZH5KyqwxEvuZXmD7k36bZagPmwcg" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #8b5cf6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            animation: float 25s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+        
+        .floating-icon:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 2rem; }
+        .floating-icon:nth-child(2) { left: 25%; animation-delay: 3s; font-size: 1.5rem; }
+        .floating-icon:nth-child(3) { left: 40%; animation-delay: 6s; font-size: 2.2rem; }
+        .floating-icon:nth-child(4) { left: 55%; animation-delay: 9s; font-size: 1.8rem; }
+        .floating-icon:nth-child(5) { left: 70%; animation-delay: 12s; font-size: 2.4rem; }
+        .floating-icon:nth-child(6) { left: 85%; animation-delay: 15s; font-size: 1.6rem; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .verify-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .verify-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+        
+        .verify-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .verify-btn:active {
+            transform: translateY(0);
+        }
+        
+        .verify-btn.loading {
+            pointer-events: none;
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .result-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        
+        .result-card.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .success-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .error-card {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        .certificate-badge {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            animation: pulse 2s infinite;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .sample-codes {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 1px solid #d1d5db;
+        }
+        
+        .sample-code {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .sample-code:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-icon {
+                animation-duration: 20s;
+            }
+            
+            .verify-card {
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-800">Cyber Sentinels</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Ana Səhifə</a>
+                    <a href="haqqimizda.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Haqqımızda</a>
+                    <a href="tehsil.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Kurslar</a>
+                    <a href="tedqiqat.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Tədqiqat</a>
+                    <a href="#" class="text-blue-600 font-medium">Sertifikat Yoxlama</a>
+                </div>
+                
+                <button class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 relative">
+        <div class="floating-icons">
+            <i class="floating-icon fas fa-certificate"></i>
+            <i class="floating-icon fas fa-award"></i>
+            <i class="floating-icon fas fa-medal"></i>
+            <i class="floating-icon fas fa-trophy"></i>
+            <i class="floating-icon fas fa-star"></i>
+            <i class="floating-icon fas fa-check-circle"></i>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="fade-in-up">
+                <div class="certificate-badge w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-certificate text-white text-3xl"></i>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Sertifikat <span class="text-yellow-300">Yoxlama</span>
+                </h1>
+                <p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto leading-relaxed mb-8">
+                    Cyber Sentinels tərəfindən verilmiş sertifikatların doğruluğunu yoxlayın. 
+                    Sertifikat kodunuzu daxil edərək təsdiq alın.
+                </p>
+                <div class="flex justify-center space-x-6 text-sm md:text-base">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-shield-check text-yellow-300"></i>
+                        <span>Təhlükəsiz Yoxlama</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-clock text-yellow-300"></i>
+                        <span>Ani Nəticə</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-database text-yellow-300"></i>
+                        <span>Məlumat Bazası</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Certificate Verification Section -->
+    <main class="container mx-auto px-6 py-16">
+        <!-- Certificate Verify Section -->
+        <div id="certificate-verify" class="verify-card rounded-3xl shadow-2xl p-12 mb-12 max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold gradient-text mb-4">Sertifikat Yoxlama</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Sertifikat kodunu aşağıdakı sahəyə daxil edin və doğruluğunu yoxlayın. 
+                    Sistem avtomatik olaraq məlumat bazasında axtarış aparacaq.
+                </p>
+            </div>
+
+            <form id="verifyForm" class="space-y-6">
+                <div class="relative">
+                    <label for="certificateCode" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-barcode mr-2 text-blue-500"></i>
+                        Sertifikat Kodu
+                    </label>
+                    <input 
+                        type="text" 
+                        id="certificateCode" 
+                        name="certificateCode"
+                        class="input-field w-full px-6 py-4 text-lg rounded-2xl bg-white"
+                        placeholder="Məsələn: CS-2024-WEB-001"
+                        required
+                        autocomplete="off"
+                    >
+                    <div class="absolute right-4 top-12 text-gray-400">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                </div>
+
+                <button 
+                    type="submit" 
+                    id="verifyBtn"
+                    class="verify-btn w-full py-4 px-8 text-white text-lg font-bold rounded-2xl flex items-center justify-center space-x-3"
+                >
+                    <i class="fas fa-search"></i>
+                    <span>Sertifikatı Yoxla</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Sample Codes Section -->
+        <div class="sample-codes rounded-2xl p-8 mb-12 max-w-4xl mx-auto">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                Test üçün nümunə kodlar:
+            </h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="sample-code text-white px-4 py-3 rounded-xl text-center font-mono text-sm" onclick="fillSampleCode('CS-2024-WEB-001')">
+                    CS-2024-WEB-001
+                </div>
+                <div class="sample-code text-white px-4 py-3 rounded-xl text-center font-mono text-sm" onclick="fillSampleCode('CS-2024-NET-002')">
+                    CS-2024-NET-002
+                </div>
+                <div class="sample-code text-white px-4 py-3 rounded-xl text-center font-mono text-sm" onclick="fillSampleCode('CS-2024-SEC-003')">
+                    CS-2024-SEC-003
+                </div>
+            </div>
+            <p class="text-center text-gray-600 text-sm mt-4">
+                <i class="fas fa-info-circle mr-1"></i>
+                Yuxarıdakı kodlardan birini klikləyərək test edə bilərsiniz
+            </p>
+        </div>
+
+        <!-- Verify Result Section -->
+        <div id="verifyResult" class="result-card max-w-4xl mx-auto">
+            <!-- Results will be displayed here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-400 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">Cyber Sentinels</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Azərbaycanda kiber təhlükəsizlik sahəsində onlayn təlim və rəqəmsal bacarıqların inkişafı ilə məşğul olan aparıcı mərkəz
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tez Keçidlər</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Ana Səhifə</a></li>
+                        <li><a href="haqqimizda.html" class="text-gray-400 hover:text-white transition-colors">Haqqımızda</a></li>
+                        <li><a href="tehsil.html" class="text-gray-400 hover:text-white transition-colors">Kurslar</a></li>
+                        <li><a href="tedqiqat.html" class="text-gray-400 hover:text-white transition-colors">Tədqiqat</a></li>
+                        <li><a href="elaqe.html" class="text-gray-400 hover:text-white transition-colors">Əlaqə</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Əlaqə</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            info@cybersentinels.az
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-2"></i>
+                            +994 12 345 67 89
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            Bakı, Azərbaycan
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Cyber Sentinels Onlayn Təhsil və İnkişaf Mərkəzi. Bütün hüquqlar qorunur.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Certificate database
+        const certificates = {
+            'CS-2024-WEB-001': {
+                name: 'Əli Məmmədov',
+                course: 'Web Application Security',
+                date: '15 Noyabr 2024',
+                status: 'Doğrulandı',
+                instructor: 'Dr. Rəşad Əliyev',
+                duration: '40 saat',
+                grade: 'A+'
+            },
+            'CS-2024-NET-002': {
+                name: 'Leyla Həsənova',
+                course: 'Network Security Fundamentals',
+                date: '22 Oktyabr 2024',
+                status: 'Doğrulandı',
+                instructor: 'Mühəndis Nigar Quliyeva',
+                duration: '35 saat',
+                grade: 'A'
+            },
+            'CS-2024-SEC-003': {
+                name: 'Orxan Rəhimov',
+                course: 'Ethical Hacking & Penetration Testing',
+                date: '08 Dekabr 2024',
+                status: 'Doğrulandı',
+                instructor: 'Kibertəhlükəsizlik Mütəxəssisi Elvin Nəbiyev',
+                duration: '60 saat',
+                grade: 'A+'
+            }
+        };
+
+        // DOM elements
+        const verifyForm = document.getElementById('verifyForm');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const certificateCodeInput = document.getElementById('certificateCode');
+        const verifyResult = document.getElementById('verifyResult');
+
+        // Form submit handler
+        verifyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const code = certificateCodeInput.value.trim().toUpperCase();
+            
+            if (!code) {
+                showError('Zəhmət olmasa sertifikat kodunu daxil edin!');
+                return;
+            }
+
+            // Show loading state
+            showLoading();
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                verifyCertificate(code);
+            }, 1500);
+        });
+
+        // Fill sample code function
+        function fillSampleCode(code) {
+            certificateCodeInput.value = code;
+            certificateCodeInput.focus();
+            
+            // Add visual feedback
+            certificateCodeInput.style.borderColor = '#3b82f6';
+            setTimeout(() => {
+                certificateCodeInput.style.borderColor = '#e5e7eb';
+            }, 1000);
+        }
+
+        // Show loading state
+        function showLoading() {
+            verifyBtn.classList.add('loading');
+            verifyBtn.innerHTML = `
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full"></div>
+                <span>Yoxlanılır...</span>
+            `;
+            verifyBtn.disabled = true;
+        }
+
+        // Reset button state
+        function resetButton() {
+            verifyBtn.classList.remove('loading');
+            verifyBtn.innerHTML = `
+                <i class="fas fa-search"></i>
+                <span>Sertifikatı Yoxla</span>
+            `;
+            verifyBtn.disabled = false;
+        }
+
+        // Verify certificate function
+        function verifyCertificate(code) {
+            resetButton();
+            
+            if (certificates[code]) {
+                showSuccess(certificates[code]);
+            } else {
+                showError('Sertifikat tapılmadı ❌');
+            }
+        }
+
+        // Show success result
+        function showSuccess(cert) {
+            const successHTML = `
+                <div class="success-card rounded-3xl shadow-2xl p-12 text-white">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check-circle text-white text-4xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2">Sertifikat Doğrulandı ✅</h3>
+                        <p class="text-lg opacity-90">Bu sertifikat etibarlıdır və məlumat bazasında qeydiyyatdadır</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-user text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Ad Soyad</div>
+                                    <div class="text-xl font-bold">${cert.name}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-graduation-cap text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Kurs</div>
+                                    <div class="text-xl font-bold">${cert.course}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-calendar text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Tarix</div>
+                                    <div class="text-xl font-bold">${cert.date}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-shield-check text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Status</div>
+                                    <div class="text-xl font-bold">${cert.status}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-chalkboard-teacher text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Təlimçi</div>
+                                    <div class="text-xl font-bold">${cert.instructor}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item p-6 rounded-2xl">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-clock text-2xl mr-3"></i>
+                                <div>
+                                    <div class="text-sm opacity-75">Müddət</div>
+                                    <div class="text-xl font-bold">${cert.duration}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="inline-flex items-center space-x-3 bg-white bg-opacity-20 px-6 py-3 rounded-2xl">
+                            <i class="fas fa-medal text-yellow-300 text-2xl"></i>
+                            <div>
+                                <div class="text-sm opacity-75">Qiymət</div>
+                                <div class="text-2xl font-bold">${cert.grade}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            verifyResult.innerHTML = successHTML;
+            verifyResult.classList.add('show');
+            
+            // Scroll to result
+            setTimeout(() => {
+                verifyResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+
+        // Show error result
+        function showError(message) {
+            const errorHTML = `
+                <div class="error-card rounded-3xl shadow-2xl p-12 text-white text-center">
+                    <div class="w-20 h-20 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-times-circle text-white text-4xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">${message}</h3>
+                    <p class="text-lg opacity-90 mb-8">
+                        Daxil etdiyiniz sertifikat kodu məlumat bazasında tapılmadı. 
+                        Zəhmət olmasa kodu yenidən yoxlayın.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="bg-white bg-opacity-10 p-4 rounded-xl">
+                            <h4 class="font-bold mb-2">
+                                <i class="fas fa-lightbulb mr-2"></i>
+                                Tövsiyələr:
+                            </h4>
+                            <ul class="text-sm space-y-1 opacity-90">
+                                <li>• Sertifikat kodunu düzgün yazdığınızdan əmin olun</li>
+                                <li>• Böyük və kiçik hərflərin fərqi yoxdur</li>
+                                <li>• Əgər problem davam edərsə, bizimlə əlaqə saxlayın</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            verifyResult.innerHTML = errorHTML;
+            verifyResult.classList.add('show');
+            
+            // Scroll to result
+            setTimeout(() => {
+                verifyResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+
+        // Input field enhancements
+        certificateCodeInput.addEventListener('input', function(e) {
+            // Auto uppercase
+            e.target.value = e.target.value.toUpperCase();
+            
+            // Clear previous results when typing
+            if (verifyResult.classList.contains('show')) {
+                verifyResult.classList.remove('show');
+                setTimeout(() => {
+                    verifyResult.innerHTML = '';
+                }, 500);
+            }
+        });
+
+        // Enter key support for sample codes
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement.classList.contains('sample-code')) {
+                document.activeElement.click();
+            }
+        });
+
+        // Link interactions
+        document.querySelectorAll('a[href="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const linkText = this.textContent.trim() || 'Link';
+                
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+                notification.innerHTML = `<i class="fas fa-external-link-alt mr-2"></i>${linkText} - Tezliklə əlçatan!`;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95e34ee75112e8f0',t:'MTc1MjM1MjMyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

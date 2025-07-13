@@ -1,0 +1,909 @@
+
+
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sənaye Hesabatları - Cyber Sentinels</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=x9F_s3eSx1O1HCvhFNYJvb_-VoToTSnHR-s9v9z1Emv0UH6QA2ZRK96CWyNTVJTxC2pJaIxCMd8UfQurWLbWShQat7EWppsfESHCswb1hgdgmumnAj8QKPjx4YZPMohMTpN4mJatpVXmS1nqlTBhNRnEyAeAbNaSXMrqZzVO7QN_cE5o43cCJeSQm-rkrFeuglstDlVjLb2upwku6TnI3Q" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .wave-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23ffffff'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23ffffff'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation: wave 15s ease-in-out infinite;
+            opacity: 0.1;
+        }
+        
+        .wave:nth-child(2) {
+            animation-delay: -5s;
+            animation-duration: 20s;
+            opacity: 0.05;
+        }
+        
+        .wave:nth-child(3) {
+            animation-delay: -2s;
+            animation-duration: 25s;
+            opacity: 0.08;
+        }
+        
+        @keyframes wave {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .report-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .category-badge {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+        }
+        
+        .view-btn {
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(45deg, #1d4ed8, #2563eb);
+            transform: scale(1.05);
+        }
+        
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .threat-level-high { background: linear-gradient(45deg, #dc2626, #ef4444); }
+        .threat-level-medium { background: linear-gradient(45deg, #d97706, #f59e0b); }
+        .threat-level-low { background: linear-gradient(45deg, #059669, #10b981); }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">CS</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-gray-900">Cyber Sentinels</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Ana Səhifə</a>
+                    <a href="haqqimizda.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Haqqımızda</a>
+                    <a href="tehsil.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Kurslar</a>
+                    <a href="bilikbazasi.html" class="text-blue-600 px-3 py-2 text-sm font-medium border-b-2 border-blue-600">Bilik Bazası</a>
+                    <a href="elaqe.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Əlaqə</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Ana Səhifə</a>
+                <a href="haqqimizda.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Haqqımızda</a>
+                <a href="tehsil.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Kurslar</a>
+                <a href="bilikbazasi.html" class="block px-3 py-2 text-blue-600 font-medium">Bilik Bazası</a>
+                <a href="elaqe.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Əlaqə</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="wave-bg text-white py-20 relative">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Sənaye Hesabatları</h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">Aylıq threat intelligence hesabatları və regional kiber təhlükəsizlik analizi</p>
+                <div class="flex flex-wrap justify-center gap-4 text-lg">
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Real vaxt analizi</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Regional hesabatlar</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Sənaye trendləri</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Stats Dashboard -->
+    <section class="py-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold mb-2">
+                        <span id="global-threats" class="pulse">847K</span>
+                    </div>
+                    <div class="text-sm opacity-90">Qlobal Təhdidlər</div>
+                </div>
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold mb-2">
+                        <span id="malware-samples">2.4M</span>
+                    </div>
+                    <div class="text-sm opacity-90">Günlük Malware</div>
+                </div>
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold mb-2">
+                        <span id="threat-level" class="threat-level-high px-2 py-1 rounded text-sm">YÜKSƏK</span>
+                    </div>
+                    <div class="text-sm opacity-90">Qlobal Səviyyə</div>
+                </div>
+                <div class="stat-card p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold mb-2">
+                        <span id="last-update">Real vaxt</span>
+                    </div>
+                    <div class="text-sm opacity-90">Məlumat Yeniləməsi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button class="category-filter active category-badge text-white px-6 py-3 rounded-full font-medium" data-category="all">Hamısı</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="threat">Threat Intelligence</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="regional">Regional Analiz</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="industry">Sənaye Trendləri</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Grid -->
+    <section class="pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="reports-grid">
+                <!-- Threat Intelligence Report 1 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="threat">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded-full text-sm font-medium">Threat Intel</span>
+                            <span class="text-gray-500 text-sm">Dekabr 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Aylıq Threat Intelligence Hesabatı</h3>
+                        <p class="text-gray-600 mb-4">Dekabr ayında aşkarlanan yeni təhdidlər, malware kampaniyaları və APT qruplarının fəaliyyəti haqqında ətraflı analiz...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full pulse"></div>
+                                <span class="text-sm text-red-600 font-medium">Yüksək Prioritet</span>
+                            </div>
+                            <span class="text-sm text-gray-500">47 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('threat-dec-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Regional Analysis Report 1 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="regional">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">Regional</span>
+                            <span class="text-gray-500 text-sm">Dekabr 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Qlobal Kiber Təhlükəsizlik Trendləri</h3>
+                        <p class="text-gray-600 mb-4">Dünya üzrə kiber təhdidlərin vəziyyəti, yeni hücum metodları və beynəlxalq təhlükəsizlik trendləri...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                <span class="text-sm text-blue-600 font-medium">Regional Analiz</span>
+                            </div>
+                            <span class="text-sm text-gray-500">62 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('regional-global-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Industry Trends Report 1 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="industry">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-3 py-1 rounded-full text-sm font-medium">Sənaye</span>
+                            <span class="text-gray-500 text-sm">Q4 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Kibertəhlükəsizlik Sənayesi Trendləri</h3>
+                        <p class="text-gray-600 mb-4">2024-cü ilin son rübündə kibertəhlükəsizlik sənayesində baş verən dəyişikliklər, yeni texnologiyalar və investisiya trendləri...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                <span class="text-sm text-purple-600 font-medium">Sənaye Analizi</span>
+                            </div>
+                            <span class="text-sm text-gray-500">38 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('industry-trends-q4-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Threat Intelligence Report 2 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="threat">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded-full text-sm font-medium">Threat Intel</span>
+                            <span class="text-gray-500 text-sm">Noyabr 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Ransomware Kampaniyaları Analizi</h3>
+                        <p class="text-gray-600 mb-4">Noyabr ayında aktiv olan ransomware qrupları, yeni şifrələmə metodları və fidyə tələbləri statistikası...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full pulse"></div>
+                                <span class="text-sm text-red-600 font-medium">Kritik</span>
+                            </div>
+                            <span class="text-sm text-gray-500">29 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('ransomware-nov-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Regional Analysis Report 2 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="regional">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">Regional</span>
+                            <span class="text-gray-500 text-sm">Noyabr 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Beynəlxalq Kiber Təhlükəsizlik Hesabatı</h3>
+                        <p class="text-gray-600 mb-4">Dünya üzrə kiber təhdidlərin statistikası, sənaye trendləri və beynəlxalq əməkdaşlıq imkanları...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="text-sm text-green-600 font-medium">Milli Hesabat</span>
+                            </div>
+                            <span class="text-sm text-gray-500">54 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('international-cyber-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Industry Trends Report 2 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="industry">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-3 py-1 rounded-full text-sm font-medium">Sənaye</span>
+                            <span class="text-gray-500 text-sm">2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">AI və Kibertəhlükəsizlik İnteqrasiyası</h3>
+                        <p class="text-gray-600 mb-4">Süni intellektin kibertəhlükəsizlik sahəsində tətbiqi, maşın öyrənməsi əsaslı müdafiə sistemləri və gələcək perspektivlər...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                <span class="text-sm text-purple-600 font-medium">Texnoloji Trend</span>
+                            </div>
+                            <span class="text-sm text-gray-500">71 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('ai-cybersecurity-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- New Threat Intelligence Report 3 -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="threat">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded-full text-sm font-medium">Threat Intel</span>
+                            <span class="text-gray-500 text-sm">Oktyabr 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">APT Qruplarının Fəaliyyət Analizi</h3>
+                        <p class="text-gray-600 mb-4">Oktyabr ayında aşkarlanan yeni APT kampaniyaları, hədəflənən sektorlar və istifadə olunan texnikalar...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                <span class="text-sm text-orange-600 font-medium">Orta Prioritet</span>
+                            </div>
+                            <span class="text-sm text-gray-500">35 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('apt-analysis-oct-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+
+                <!-- New Industry Report -->
+                <div class="report-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="industry">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-3 py-1 rounded-full text-sm font-medium">Sənaye</span>
+                            <span class="text-gray-500 text-sm">Q3 2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Cloud Security Bazar Analizi</h3>
+                        <p class="text-gray-600 mb-4">Bulud təhlükəsizliyi bazarının inkişafı, yeni həllər və şirkətlərin adaptasiya strategiyaları...</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-cyan-500 rounded-full"></div>
+                                <span class="text-sm text-cyan-600 font-medium">Bazar Tədqiqatı</span>
+                            </div>
+                            <span class="text-sm text-gray-500">58 səhifə</span>
+                        </div>
+                        <button class="view-btn text-white px-4 py-2 rounded-lg text-sm font-medium w-full" onclick="openReport('cloud-security-market-2024')">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            Araşdır
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-6xl w-full modal-content">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 id="modal-title" class="text-2xl font-bold text-gray-900"></h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6" id="modal-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">CS</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold">Cyber Sentinels</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Kibertəhlükəsizlik sahəsində peşəkar kadrların hazırlanması və elmi tədqiqatların aparılması məqsədilə yaradılmış platformadır.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Keçidlər</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Ana Səhifə</a></li>
+                        <li><a href="haqqimizda.html" class="text-gray-400 hover:text-white transition-colors">Haqqımızda</a></li>
+                        <li><a href="tehsil.html" class="text-gray-400 hover:text-white transition-colors">Kurslar</a></li>
+                        <li><a href="bilikbazasi.html" class="text-gray-400 hover:text-white transition-colors">Bilik Bazası</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Əlaqə</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">info@cybersentinels.az</li>
+                        <li class="text-gray-400">+994 12 345 67 89</li>
+                        <li class="text-gray-400">Bakı, Azərbaycan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Cyber Sentinels. Bütün hüquqlar qorunur.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Category filtering
+        const categoryFilters = document.querySelectorAll('.category-filter');
+        const reports = document.querySelectorAll('.report-card');
+
+        categoryFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active filter
+                categoryFilters.forEach(f => {
+                    f.classList.remove('active', 'category-badge', 'text-white');
+                    f.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                this.classList.add('active', 'category-badge', 'text-white');
+                this.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                // Filter reports
+                reports.forEach(report => {
+                    if (category === 'all' || report.getAttribute('data-category') === category) {
+                        report.style.display = 'block';
+                    } else {
+                        report.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Real-time stats update
+        function updateStats() {
+            const globalThreats = document.getElementById('global-threats');
+            const malwareSamples = document.getElementById('malware-samples');
+            const lastUpdate = document.getElementById('last-update');
+            
+            // Simulate real-time updates for global statistics
+            const currentThreats = parseFloat(globalThreats.textContent.replace('K', ''));
+            const currentMalware = parseFloat(malwareSamples.textContent.replace('M', ''));
+            
+            globalThreats.textContent = (currentThreats + Math.random() * 0.5).toFixed(0) + 'K';
+            malwareSamples.textContent = (currentMalware + Math.random() * 0.1).toFixed(1) + 'M';
+            lastUpdate.textContent = 'İndi';
+            
+            setTimeout(() => {
+                lastUpdate.textContent = 'Real vaxt';
+            }, 5000);
+        }
+
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
+
+        // Report content data
+        const reportData = {
+            'threat-dec-2024': {
+                title: "Dekabr 2024 - Aylıq Threat Intelligence Hesabatı",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                            <h3 class="text-xl font-bold text-red-900 mb-4">İcraçı Xülasə</h3>
+                            <p class="text-red-800 mb-4">Dekabr 2024-cü ildə kibertəhdid mənzərəsi əhəmiyyətli dəyişikliklər göstərmişdir. Yeni malware ailələrinin yaranması, APT qruplarının artan fəaliyyəti və ransomware hücumlarının intensivləşməsi müşahidə edilmişdir.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">2.4M</div>
+                                    <div class="text-sm text-red-800">Günlük Yeni Malware</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">43.5B</div>
+                                    <div class="text-sm text-red-800">Qeydə Alınan Hücum</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">68%</div>
+                                    <div class="text-sm text-red-800">Şirkətlər Hədəflənib</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Tövsiyələr</h3>
+                            <ul class="list-disc list-inside space-y-2 text-blue-800">
+                                <li>E-mail təhlükəsizlik həllərini gücləndirilməsi</li>
+                                <li>Endpoint Detection and Response (EDR) sistemlərinin tətbiqi</li>
+                                <li>Mütəmadi təhlükəsizlik təlimləri keçirilməsi</li>
+                                <li>İnsident cavab planlarının yenilənməsi</li>
+                                <li>Threat intelligence xidmətlərindən istifadə</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            'regional-global-2024': {
+                title: "Qlobal Kiber Təhlükəsizlik Trendləri - Dekabr 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Qlobal İcmal</h3>
+                            <p class="text-blue-800 mb-4">Dünya üzrə kiber təhlükəsizlik sahəsində 2024-cü ilin son aylarında əhəmiyyətli trendlər müşahidə edilmişdir. Beynəlxalq əməkdaşlığın güclənməsi və yeni təhdidlərə qarşı birgə mübarizə aparılması prioritet sahələr kimi qalmaqdadır.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-blue-600">195</div>
+                                    <div class="text-sm text-blue-800">Ölkə Əhatəsi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-blue-600">89%</div>
+                                    <div class="text-sm text-blue-800">Hazırlıq İndeksi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-blue-600">47</div>
+                                    <div class="text-sm text-blue-800">Beynəlxalq Müqavilə</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-green-900 mb-4">Regional Tövsiyələr</h3>
+                            <ul class="list-disc list-inside space-y-2 text-green-800">
+                                <li>Regional CERT-lər arasında məlumat mübadiləsinin gücləndirilməsi</li>
+                                <li>Birgə təhdid intelligence platformasının yaradılması</li>
+                                <li>Kiber təhlükəsizlik mütəxəssislərinin mübadiləsi</li>
+                                <li>Beynəlxalq standartların tətbiqi</li>
+                                <li>Kapasitet artırma proqramlarının həyata keçirilməsi</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            'industry-trends-q4-2024': {
+                title: "Kibertəhlükəsizlik Sənayesi Trendləri - Q4 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+                            <h3 class="text-xl font-bold text-purple-900 mb-4">Bazar İcmalı</h3>
+                            <p class="text-purple-800 mb-4">2024-cü ilin son rübündə kibertəhlükəsizlik sənayesi rekord artım göstərmiş və 180 milyard dollar həcmə çatmışdır. AI və maşın öyrənməsi texnologiyalarının inteqrasiyası sənayenin əsas trendini təşkil edir.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">$180B</div>
+                                    <div class="text-sm text-purple-800">Bazar Həcmi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">+15.2%</div>
+                                    <div class="text-sm text-purple-800">İllik Artım</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">2,847</div>
+                                    <div class="text-sm text-purple-800">Yeni Startaplar</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">$47B</div>
+                                    <div class="text-sm text-purple-800">İnvestisiya Həcmi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-indigo-900 mb-4">2025 Proqnozları</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-indigo-800 mb-3">Texnoloji İnkişaf</h4>
+                                    <ul class="space-y-2 text-indigo-700 text-sm">
+                                        <li>• AI-powered SOC-ların yaygınlaşması</li>
+                                        <li>• Kvant-davamlı kriptoqrafiyanın tətbiqi</li>
+                                        <li>• 5G şəbəkələrində təhlükəsizlik həlləri</li>
+                                        <li>• Edge computing təhlükəsizliyi</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-indigo-800 mb-3">Bazar Proqnozları</h4>
+                                    <ul class="space-y-2 text-indigo-700 text-sm">
+                                        <li>• Bazar həcminin $220B-a çatması</li>
+                                        <li>• SMB seqmentində 40% artım</li>
+                                        <li>• Managed Security Services artımı</li>
+                                        <li>• Compliance automation həlləri</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'ransomware-nov-2024': {
+                title: "Ransomware Kampaniyaları Analizi - Noyabr 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                            <h3 class="text-xl font-bold text-red-900 mb-4">Ransomware Fəaliyyət İcmalı</h3>
+                            <p class="text-red-800 mb-4">Noyabr 2024-cü ildə ransomware hücumları 34% artım göstərmiş və yeni şifrələmə texnikaları müşahidə edilmişdir. Ən aktiv qruplar arasında LockBit, BlackCat və Cl0p yer alır.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">847</div>
+                                    <div class="text-sm text-red-800">Ransomware Hücumu</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">$12.4M</div>
+                                    <div class="text-sm text-red-800">Ortalama Fidyə</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-red-600">23 gün</div>
+                                    <div class="text-sm text-red-800">Ortalama Bərpa Vaxtı</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Müdafiə Tövsiyələri</h3>
+                            <ul class="list-disc list-inside space-y-2 text-blue-800">
+                                <li>Immutable backup strategiyalarının tətbiqi</li>
+                                <li>Network segmentasiyasının gücləndirilməsi</li>
+                                <li>Privileged access management sistemlərinin qurulması</li>
+                                <li>Incident response planlarının yenilənməsi</li>
+                                <li>Mütəmadi penetration testlərinin aparılması</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            'international-cyber-2024': {
+                title: "Beynəlxalq Kiber Təhlükəsizlik Hesabatı - Noyabr 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                            <h3 class="text-xl font-bold text-green-900 mb-4">Beynəlxalq Kiber Təhlükəsizlik Vəziyyəti</h3>
+                            <p class="text-green-800 mb-4">Dünya üzrə kiber təhlükəsizlik sahəsində əməkdaşlıq və koordinasiya məsələləri, beynəlxalq standartlar və regional təhlükəsizlik tədbirləri analiz edilmişdir.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-green-600">195</div>
+                                    <div class="text-sm text-green-800">Ölkə Əhatəsi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-green-600">89%</div>
+                                    <div class="text-sm text-green-800">Hazırlıq İndeksi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-green-600">47</div>
+                                    <div class="text-sm text-green-800">Beynəlxalq Müqavilə</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Beynəlxalq Əməkdaşlıq Tövsiyələri</h3>
+                            <ul class="list-disc list-inside space-y-2 text-blue-800">
+                                <li>Regional CERT şəbəkəsinin gücləndirilməsi</li>
+                                <li>Beynəlxalq kiber təlimlərdə iştirak</li>
+                                <li>Threat intelligence məlumat mübadiləsi</li>
+                                <li>Birgə tədqiqat layihələrinin həyata keçirilməsi</li>
+                                <li>Kiber diplomatiya mexanizmlərinin inkişafı</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            'ai-cybersecurity-2024': {
+                title: "AI və Kibertəhlükəsizlik İnteqrasiyası - 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+                            <h3 class="text-xl font-bold text-purple-900 mb-4">AI İnteqrasiyası İcmalı</h3>
+                            <p class="text-purple-800 mb-4">2024-cü ildə süni intellekt kibertəhlükəsizlik sahəsində inqilabi dəyişikliklər yaratmışdır. Maşın öyrənməsi əsaslı müdafiə sistemləri 87% effektivlik göstərmişdir.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">87%</div>
+                                    <div class="text-sm text-purple-800">AI Effektivliyi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">2.4s</div>
+                                    <div class="text-sm text-purple-800">Ortalama Cavab Vaxtı</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">94%</div>
+                                    <div class="text-sm text-purple-800">False Positive Azalması</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-purple-600">$45B</div>
+                                    <div class="text-sm text-purple-800">AI Security Bazar</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-indigo-900 mb-4">Gələcək Perspektivlər</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-indigo-800 mb-3">2025 Proqnozları</h4>
+                                    <ul class="space-y-2 text-indigo-700 text-sm">
+                                        <li>• Quantum-resistant AI modelləri</li>
+                                        <li>• Federated Learning tətbiqi</li>
+                                        <li>• Explainable AI həllərinin inkişafı</li>
+                                        <li>• Edge AI təhlükəsizlik sistemləri</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-indigo-800 mb-3">İnvestisiya Sahələri</h4>
+                                    <ul class="space-y-2 text-indigo-700 text-sm">
+                                        <li>• AI-powered SOAR platformaları</li>
+                                        <li>• Behavioral biometrics</li>
+                                        <li>• Autonomous cyber defense</li>
+                                        <li>• AI governance və etika</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'apt-analysis-oct-2024': {
+                title: "APT Qruplarının Fəaliyyət Analizi - Oktyabr 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
+                            <h3 class="text-xl font-bold text-orange-900 mb-4">APT Fəaliyyət İcmalı</h3>
+                            <p class="text-orange-800 mb-4">Oktyabr 2024-cü ildə Advanced Persistent Threat qruplarının fəaliyyəti artmış və yeni hədəflər müəyyənləşdirilmişdir. Xüsusilə kritik infrastruktur və dövlət qurumları hədəflənmişdir.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-orange-600">23</div>
+                                    <div class="text-sm text-orange-800">Aktiv APT Qrupu</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-orange-600">156</div>
+                                    <div class="text-sm text-orange-800">Aşkarlanan Kampaniya</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-orange-600">89 gün</div>
+                                    <div class="text-sm text-orange-800">Ortalama Dwell Time</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-yellow-900 mb-4">Müdafiə Strategiyaları</h3>
+                            <ul class="list-disc list-inside space-y-2 text-yellow-800">
+                                <li>Zero Trust arxitekturasının tətbiqi</li>
+                                <li>Advanced threat hunting proqramları</li>
+                                <li>Behavioral analytics sistemlərinin qurulması</li>
+                                <li>Threat intelligence paylaşımının artırılması</li>
+                                <li>İnsident cavab qabiliyyətinin gücləndirilməsi</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            'cloud-security-market-2024': {
+                title: "Cloud Security Bazar Analizi - Q3 2024",
+                content: `
+                    <div class="space-y-8">
+                        <div class="bg-cyan-50 p-6 rounded-lg border-l-4 border-cyan-500">
+                            <h3 class="text-xl font-bold text-cyan-900 mb-4">Bulud Təhlükəsizliyi Bazar İcmalı</h3>
+                            <p class="text-cyan-800 mb-4">2024-cü ilin üçüncü rübündə bulud təhlükəsizliyi bazarı sürətli artım göstərmiş və 68 milyard dollar həcmə çatmışdır. Hibrid və multi-cloud həlləri ən sürətli böyüyən seqmentlər olmuşdur.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-cyan-600">$68B</div>
+                                    <div class="text-sm text-cyan-800">Bazar Həcmi</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-cyan-600">+22.8%</div>
+                                    <div class="text-sm text-cyan-800">İllik Artım</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-cyan-600">89%</div>
+                                    <div class="text-sm text-cyan-800">Şirkət Adaptasiyası</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center">
+                                    <div class="text-2xl font-bold text-cyan-600">$95B</div>
+                                    <div class="text-sm text-cyan-800">2025 Proqnozu</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Əsas Trendlər</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-3">Texnoloji Yeniliklər</h4>
+                                    <ul class="space-y-2 text-blue-700 text-sm">
+                                        <li>• Cloud Security Posture Management (CSPM)</li>
+                                        <li>• Cloud Workload Protection Platforms (CWPP)</li>
+                                        <li>• Cloud Access Security Brokers (CASB)</li>
+                                        <li>• Secure Access Service Edge (SASE)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-3">Bazar Seqmentləri</h4>
+                                    <ul class="space-y-2 text-blue-700 text-sm">
+                                        <li>• Identity və Access Management (32%)</li>
+                                        <li>• Data Loss Prevention (24%)</li>
+                                        <li>• Security Information Management (19%)</li>
+                                        <li>• Encryption və Key Management (25%)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Function to open report modal
+        function openReport(reportId) {
+            const modal = document.getElementById('report-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            const report = reportData[reportId];
+            if (report) {
+                modalTitle.textContent = report.title;
+                modalContent.innerHTML = report.content;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Function to close modal
+        function closeModal() {
+            const modal = document.getElementById('report-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('report-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95e717acf148e8f0',t:'MTc1MjM5MjAxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

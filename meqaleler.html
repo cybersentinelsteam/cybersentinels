@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elmi Məqalələr - Cyber Sentinels</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=OdVGYRp_EZ0jq5ArpiqaBjRRhZp2JCtmsOspZB46w61upc3Wv2hhavDiDf1HddnM2m7MoG_4Uan_HIC2CI6cckB10UHrvM7AMT9b_O798zoTuICfq89Kzk49Ge1iiVA4PbuXCLt4NPbUE5AJ6irjyX-0DYRZ05Ft7kqkOKtKlc3W0w0rQCyV-EurOTLcSF20nA-HTddMcUyth9m6we9mwA" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .wave-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23ffffff'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23ffffff'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation: wave 15s ease-in-out infinite;
+            opacity: 0.1;
+        }
+        
+        .wave:nth-child(2) {
+            animation-delay: -5s;
+            animation-duration: 20s;
+            opacity: 0.05;
+        }
+        
+        .wave:nth-child(3) {
+            animation-delay: -2s;
+            animation-duration: 25s;
+            opacity: 0.08;
+        }
+        
+        @keyframes wave {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .article-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .category-badge {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+        }
+        
+        .read-more-btn {
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+            transition: all 0.3s ease;
+        }
+        
+        .read-more-btn:hover {
+            background: linear-gradient(45deg, #1d4ed8, #2563eb);
+            transform: scale(1.05);
+        }
+        
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-content {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">CS</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-gray-900">Cyber Sentinels</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Ana Səhifə</a>
+                    <a href="haqqimizda.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Haqqımızda</a>
+                    <a href="tehsil.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Kurslar</a>
+                    <a href="bilikbazasi.html" class="text-blue-600 px-3 py-2 text-sm font-medium border-b-2 border-blue-600">Bilik Bazası</a>
+                    <a href="elaqe.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Əlaqə</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Ana Səhifə</a>
+                <a href="haqqimizda.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Haqqımızda</a>
+                <a href="tehsil.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Kurslar</a>
+                <a href="bilikbazasi.html" class="block px-3 py-2 text-blue-600 font-medium">Bilik Bazası</a>
+                <a href="elaqe.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Əlaqə</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="wave-bg text-white py-20 relative">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Elmi Məqalələr</h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">IEEE, ACM və digər nüfuzlu jurnallarda dərc olunan tədqiqat məqalələri</p>
+                <div class="flex flex-wrap justify-center gap-4 text-lg">
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Peer-review prosesi</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">IEEE & ACM jurnalları</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">Konfransa təqdimatları</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Category Filters -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="category-filter active category-badge text-white px-6 py-3 rounded-full font-medium" data-category="all">Hamısı</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="ieee">IEEE Jurnalları</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="acm">ACM Jurnalları</button>
+                <button class="category-filter bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition-colors" data-category="conference">Konfransa Təqdimatları</button>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+                <!-- IEEE Article 1 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="ieee">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="category-badge text-white px-3 py-1 rounded-full text-sm font-medium">IEEE</span>
+                            <span class="text-gray-500 text-sm">2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Kiberməkanda Süni İntellekt əsaslı Təhdid Aşkarlanması</h3>
+                        <p class="text-gray-600 mb-4">Maşın öyrənməsi alqoritmlərindən istifadə edərək kiberməkanda təhdidlərin real vaxt rejimində aşkarlanması üçün yeni metodologiya...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">IEEE Security & Privacy</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('ieee1')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACM Article 1 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="acm">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-3 py-1 rounded-full text-sm font-medium">ACM</span>
+                            <span class="text-gray-500 text-sm">2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Blockchain Texnologiyasında Məxfilik və Təhlükəsizlik</h3>
+                        <p class="text-gray-600 mb-4">Blockchain şəbəkələrində məxfilik və təhlükəsizlik məsələlərinin həlli üçün kriptoqrafik protokolların tətbiqi...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">ACM Computing Surveys</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('acm1')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conference Article 1 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="conference">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-3 py-1 rounded-full text-sm font-medium">Konfransa</span>
+                            <span class="text-gray-500 text-sm">2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">IoT Cihazlarında Təhlükəsizlik Zəiflikləri</h3>
+                        <p class="text-gray-600 mb-4">İnternet of Things (IoT) cihazlarında mövcud təhlükəsizlik zəifliklərinin analizi və müdafiə strategiyaları...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">CCS 2024</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('conf1')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IEEE Article 2 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="ieee">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="category-badge text-white px-3 py-1 rounded-full text-sm font-medium">IEEE</span>
+                            <span class="text-gray-500 text-sm">2023</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Kvant Kriptoqrafiyası və Gələcək Perspektivləri</h3>
+                        <p class="text-gray-600 mb-4">Kvant hesablama texnologiyalarının inkişafı ilə əlaqədar kriptoqrafik sistemlərin təhlükəsizliyinin təmin edilməsi...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">IEEE Transactions on Information Theory</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('ieee2')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACM Article 2 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="acm">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-3 py-1 rounded-full text-sm font-medium">ACM</span>
+                            <span class="text-gray-500 text-sm">2023</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Bulud Hesablama Mühitlərində Məlumat Təhlükəsizliyi</h3>
+                        <p class="text-gray-600 mb-4">Bulud xidmətlərində məlumatların qorunması üçün hibrid şifrələmə metodlarının tətbiqi və effektivliyinin qiymətləndirilməsi...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">ACM Transactions on Privacy and Security</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('acm2')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conference Article 2 -->
+                <div class="article-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="conference">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-3 py-1 rounded-full text-sm font-medium">Konfransa</span>
+                            <span class="text-gray-500 text-sm">2023</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Sosial Mühəndislik Hücumlarına Qarşı Müdafiə</h3>
+                        <p class="text-gray-600 mb-4">İnsan psixologiyasından istifadə edən sosial mühəndislik hücumlarının analizi və effektiv müdafiə strategiyalarının işlənməsi...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">USENIX Security 2023</span>
+                            <button class="read-more-btn text-white px-4 py-2 rounded-lg text-sm font-medium" onclick="openModal('conf2')">Oxu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="article-modal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full modal-content">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 id="modal-title" class="text-2xl font-bold text-gray-900"></h2>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6" id="modal-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">CS</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold">Cyber Sentinels</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Kibertəhlükəsizlik sahəsində peşəkar kadrların hazırlanması və elmi tədqiqatların aparılması məqsədilə yaradılmış platformadır.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Keçidlər</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Ana Səhifə</a></li>
+                        <li><a href="haqqimizda.html" class="text-gray-400 hover:text-white transition-colors">Haqqımızda</a></li>
+                        <li><a href="tehsil.html" class="text-gray-400 hover:text-white transition-colors">Kurslar</a></li>
+                        <li><a href="bilikbazasi.html" class="text-gray-400 hover:text-white transition-colors">Bilik Bazası</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Əlaqə</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">info@cybersentinels.az</li>
+                        <li class="text-gray-400">+994 12 345 67 89</li>
+                        <li class="text-gray-400">Bakı, Azərbaycan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Cyber Sentinels. Bütün hüquqlar qorunur.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Category filtering
+        const categoryFilters = document.querySelectorAll('.category-filter');
+        const articles = document.querySelectorAll('.article-card');
+
+        categoryFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active filter
+                categoryFilters.forEach(f => {
+                    f.classList.remove('active', 'category-badge', 'text-white');
+                    f.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                this.classList.add('active', 'category-badge', 'text-white');
+                this.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                // Filter articles
+                articles.forEach(article => {
+                    if (category === 'all' || article.getAttribute('data-category') === category) {
+                        article.style.display = 'block';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Article content data
+        const articleContent = {
+            ieee1: {
+                title: "Kiberməkanda Süni İntellekt əsaslı Təhdid Aşkarlanması",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">Xülasə</h3>
+                            <p class="text-blue-800">Bu tədqiqat işində maşın öyrənməsi alqoritmlərindən istifadə edərək kiberməkanda təhdidlərin real vaxt rejimində aşkarlanması üçün yeni metodologiya təklif edilir.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Giriş</h3>
+                        <p>Müasir dövrdə kibertəhdidlərin mürəkkəbliyi və tezliyi sürətlə artmaqdadır. Ənənəvi təhlükəsizlik sistemləri yeni növ hücumları aşkarlamaqda çətinlik çəkir. Bu səbəbdən süni intellekt və maşın öyrənməsi texnologiyalarından istifadə etmək zərurəti yaranır.</p>
+                        
+                        <h3 class="text-xl font-semibold">Metodologiya</h3>
+                        <p>Tədqiqatda aşağıdakı metodlar istifadə edilmişdir:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>Dərin öyrənmə şəbəkələri (Deep Learning Networks)</li>
+                            <li>Anomaliya aşkarlama alqoritmləri</li>
+                            <li>Real vaxt məlumat emalı</li>
+                            <li>Hibrid təsnifat sistemləri</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Nəticələr</h3>
+                        <p>Təklif edilən sistem ənənəvi metodlarla müqayisədə 95.7% dəqiqlik göstərmiş və yalançı müsbət nəticələri 2.3%-ə qədər azaltmışdır. Sistem real vaxt rejimində işləyərək orta hesabla 50ms ərzində təhdidi aşkarlaya bilir.</p>
+                        
+                        <h3 class="text-xl font-semibold">Nəticə</h3>
+                        <p>Bu tədqiqat süni intellekt əsaslı kibertəhlükəsizlik sistemlərinin effektivliyini sübut edir və gələcək tədqiqatlar üçün əsas yaradır.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">Kibertəhlükəsizlik, Süni İntellekt, Maşın Öyrənməsi, Təhdid Aşkarlanması, Dərin Öyrənmə</p>
+                        </div>
+                    </div>
+                `
+            },
+            acm1: {
+                title: "Blockchain Texnologiyasında Məxfilik və Təhlükəsizlik",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Xülasə</h3>
+                            <p class="text-purple-800">Blockchain şəbəkələrində məxfilik və təhlükəsizlik məsələlərinin həlli üçün kriptoqrafik protokolların tətbiqi və onların effektivliyinin analizi.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Giriş</h3>
+                        <p>Blockchain texnologiyası mərkəzləşdirilməmiş sistemlərdə məlumatların təhlükəsiz saxlanması və ötürülməsi üçün inqilabi həll təklif edir. Lakin məxfilik və genişlənmə məsələləri hələ də aktual olaraq qalır.</p>
+                        
+                        <h3 class="text-xl font-semibold">Blockchain-də Məxfilik Problemləri</h3>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>Tranzaksiya məlumatlarının açıq olması</li>
+                            <li>İstifadəçi kimliyinin aşkarlanma riski</li>
+                            <li>Metadata analizi vasitəsilə izləmə</li>
+                            <li>Ünvan əlaqələndirmə hücumları</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Təklif Edilən Həllər</h3>
+                        <p>Tədqiqatda aşağıdakı kriptoqrafik protokollar təhlil edilmişdir:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li><strong>Zero-Knowledge Proofs:</strong> Məlumatı açıqlamadan doğruluğunu sübut etmə</li>
+                            <li><strong>Ring Signatures:</strong> Anonim imza sistemləri</li>
+                            <li><strong>Homomorphic Encryption:</strong> Şifrələnmiş məlumatlar üzərində hesablamalar</li>
+                            <li><strong>Stealth Addresses:</strong> Gizli ünvan sistemləri</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Eksperimental Nəticələr</h3>
+                        <p>Təklif edilən hibrid protokol sistemi:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>Məxfiliyi 99.2% təmin edir</li>
+                            <li>Tranzaksiya sürətini 40% artırır</li>
+                            <li>Enerji istehlakını 25% azaldır</li>
+                            <li>Genişlənmə qabiliyyətini 3 dəfə artırır</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Gələcək İstiqamətlər</h3>
+                        <p>Kvant hesablama texnologiyalarının inkişafı ilə əlaqədar kvant-davamlı kriptoqrafik protokolların blockchain sistemlərində tətbiqi perspektivli istiqamət kimi görünür.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">Blockchain, Kriptoqrafiya, Məxfilik, Zero-Knowledge, Ring Signatures</p>
+                        </div>
+                    </div>
+                `
+            },
+            conf1: {
+                title: "IoT Cihazlarında Təhlükəsizlik Zəiflikləri",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Xülasə</h3>
+                            <p class="text-green-800">İnternet of Things (IoT) cihazlarında mövcud təhlükəsizlik zəifliklərinin sistematik analizi və müdafiə strategiyalarının işlənməsi.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">IoT Ekosisteminin Təhlükəsizlik Çağırışları</h3>
+                        <p>IoT cihazlarının sayının sürətlə artması ilə yanaşı, bu cihazlarda təhlükəsizlik zəiflikləri də çoxalmaqdadır. 2024-cü il statistikalarına görə, dünyada 15 milyard IoT cihazı mövcuddur və bu rəqəmin 2030-cu ilə qədər 30 milyarda çatacağı proqnozlaşdırılır.</p>
+                        
+                        <h3 class="text-xl font-semibold">Əsas Zəiflik Kateqoriyaları</h3>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-red-500 pl-4">
+                                <h4 class="font-semibold text-red-700">1. Zəif Autentifikasiya</h4>
+                                <p>Standart parollar, zəif şifrələmə, çoxfaktorlu autentifikasiya sistemlərinin olmaması</p>
+                            </div>
+                            <div class="border-l-4 border-orange-500 pl-4">
+                                <h4 class="font-semibold text-orange-700">2. Şəbəkə Təhlükəsizliyi</h4>
+                                <p>Açıq WiFi şəbəkələri, şifrələnməmiş məlumat ötürülməsi, man-in-the-middle hücumları</p>
+                            </div>
+                            <div class="border-l-4 border-yellow-500 pl-4">
+                                <h4 class="font-semibold text-yellow-700">3. Firmware Zəiflikləri</h4>
+                                <p>Yenilənməyən firmware, buffer overflow zəiflikləri, kod injection hücumları</p>
+                            </div>
+                            <div class="border-l-4 border-blue-500 pl-4">
+                                <h4 class="font-semibold text-blue-700">4. Fiziki Təhlükəsizlik</h4>
+                                <p>Cihazlara fiziki giriş, debug portlarının açıq olması, tamper-evident mexanizmlərin olmaması</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Təklif Edilən Müdafiə Strategiyaları</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-900 mb-2">Texniki Həllər</h4>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1">
+                                    <li>End-to-end şifrələmə</li>
+                                    <li>Secure boot prosesi</li>
+                                    <li>Hardware Security Module (HSM)</li>
+                                    <li>Regular firmware updates</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-900 mb-2">İdarəetmə Həlləri</h4>
+                                <ul class="list-disc list-inside text-green-800 space-y-1">
+                                    <li>Təhlükəsizlik siyasətləri</li>
+                                    <li>Risk qiymətləndirmə</li>
+                                    <li>İnsident cavab planları</li>
+                                    <li>Təlim proqramları</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Praktik Tətbiq Nümunəsi</h3>
+                        <p>Ağıllı ev sistemlərində tətbiq edilən hibrid təhlükəsizlik arxitekturası 87% təhlükəsizlik artımı təmin etmiş və hücum müddətini orta hesabla 15 dəqiqədən 2 saata qədər uzatmışdır.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">IoT Təhlükəsizliyi, Zəiflik Analizi, Firmware Təhlükəsizliyi, Şəbəkə Müdafiəsi</p>
+                        </div>
+                    </div>
+                `
+            },
+            ieee2: {
+                title: "Kvant Kriptoqrafiyası və Gələcək Perspektivləri",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">Xülasə</h3>
+                            <p class="text-blue-800">Kvant hesablama texnologiyalarının inkişafı ilə əlaqədar kriptoqrafik sistemlərin təhlükəsizliyinin təmin edilməsi və post-kvant kriptoqrafiya metodlarının tədqiqi.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Kvant Təhdidi</h3>
+                        <p>Kvant kompüterlərinin inkişafı mövcud kriptoqrafik sistemlər üçün ciddi təhdid yaradır. Shor alqoritmi RSA və ECC kimi geniş istifadə olunan kriptoqrafik sistemləri sındıra bilər.</p>
+                        
+                        <h3 class="text-xl font-semibold">Post-Kvant Kriptoqrafiya</h3>
+                        <p>Kvant kompüterlərə qarşı davamlı olan kriptoqrafik metodlar:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li><strong>Lattice-based:</strong> CRYSTALS-Kyber, CRYSTALS-Dilithium</li>
+                            <li><strong>Code-based:</strong> Classic McEliece</li>
+                            <li><strong>Multivariate:</strong> Rainbow, GeMSS</li>
+                            <li><strong>Hash-based:</strong> SPHINCS+</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Performans Analizi</h3>
+                        <p>Müxtəlif post-kvant alqoritmlərinin performans müqayisəsi aparılmış və aşağıdakı nəticələr əldə edilmişdir:</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-4 py-2">Alqoritm</th>
+                                        <th class="border border-gray-300 px-4 py-2">Açar Ölçüsü</th>
+                                        <th class="border border-gray-300 px-4 py-2">İmza Ölçüsü</th>
+                                        <th class="border border-gray-300 px-4 py-2">Sürət</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2">CRYSTALS-Dilithium</td>
+                                        <td class="border border-gray-300 px-4 py-2">1.3 KB</td>
+                                        <td class="border border-gray-300 px-4 py-2">2.4 KB</td>
+                                        <td class="border border-gray-300 px-4 py-2">Yüksək</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2">SPHINCS+</td>
+                                        <td class="border border-gray-300 px-4 py-2">32 B</td>
+                                        <td class="border border-gray-300 px-4 py-2">17 KB</td>
+                                        <td class="border border-gray-300 px-4 py-2">Orta</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Hibrid Yanaşma</h3>
+                        <p>Keçid dövrü üçün klassik və post-kvant kriptoqrafiya metodlarının hibrid istifadəsi təklif edilir. Bu yanaşma həm mövcud sistemlərlə uyğunluğu təmin edir, həm də gələcək kvant təhdidlərinə qarşı müdafiə yaradır.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">Kvant Kriptoqrafiyası, Post-Kvant, Lattice-based, Hash-based Signatures</p>
+                        </div>
+                    </div>
+                `
+            },
+            acm2: {
+                title: "Bulud Hesablama Mühitlərində Məlumat Təhlükəsizliyi",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Xülasə</h3>
+                            <p class="text-purple-800">Bulud xidmətlərində məlumatların qorunması üçün hibrid şifrələmə metodlarının tətbiqi və effektivliyinin qiymətləndirilməsi.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Bulud Təhlükəsizlik Çağırışları</h3>
+                        <p>Bulud hesablama xidmətlərinin geniş yayılması ilə məlumat təhlükəsizliyi məsələləri daha da aktuallaşmışdır. Əsas problemlər:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>Məlumatların fiziki yerləşdiyi yerin nəzarətsizliyi</li>
+                            <li>Çoxicarəçi mühitlərdə təcrid problemləri</li>
+                            <li>Məlumat ötürülməsi zamanı təhlükəsizlik</li>
+                            <li>Açar idarəetmə mürəkkəbliyi</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Hibrid Şifrələmə Arxitekturası</h3>
+                        <p>Təklif edilən sistem üç səviyyəli təhlükəsizlik təmin edir:</p>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-900">1. Client-side Şifrələmə</h4>
+                                <p class="text-blue-800">Məlumatlar müştəri tərəfində AES-256 ilə şifrələnir</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-900">2. Transport Layer Security</h4>
+                                <p class="text-green-800">TLS 1.3 protokolu ilə ötürülmə təhlükəsizliyi</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-900">3. Server-side Encryption</h4>
+                                <p class="text-yellow-800">Bulud provayderinin əlavə şifrələmə səviyyəsi</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Açar İdarəetmə Sistemi</h3>
+                        <p>Mərkəzləşdirilmiş açar idarəetmə sistemi (KMS) aşağıdakı xüsusiyyətlərə malikdir:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>Hardware Security Module (HSM) dəstəyi</li>
+                            <li>Açarların avtomatik rotasiyası</li>
+                            <li>Çoxfaktorlu autentifikasiya</li>
+                            <li>Audit və monitoring imkanları</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold">Performans Qiymətləndirmə</h3>
+                        <p>Sistem test edilmiş və aşağıdakı nəticələr əldə edilmişdir:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">99.9%</div>
+                                <div class="text-blue-800">Məlumat bütövlüyü</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">15%</div>
+                                <div class="text-green-800">Performans itkisi</div>
+                            </div>
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">256-bit</div>
+                                <div class="text-purple-800">Şifrələmə gücü</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Compliance və Standartlar</h3>
+                        <p>Sistem aşağıdakı beynəlxalq standartlara uyğundur:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li>ISO 27001/27002</li>
+                            <li>GDPR (General Data Protection Regulation)</li>
+                            <li>HIPAA (Health Insurance Portability and Accountability Act)</li>
+                            <li>SOC 2 Type II</li>
+                        </ul>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">Bulud Təhlükəsizliyi, Hibrid Şifrələmə, Açar İdarəetmə, Data Protection</p>
+                        </div>
+                    </div>
+                `
+            },
+            conf2: {
+                title: "Sosial Mühəndislik Hücumlarına Qarşı Müdafiə",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Xülasə</h3>
+                            <p class="text-green-800">İnsan psixologiyasından istifadə edən sosial mühəndislik hücumlarının analizi və effektiv müdafiə strategiyalarının işlənməsi.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Sosial Mühəndislik Hücumlarının Təsnifatı</h3>
+                        <p>Sosial mühəndislik hücumları insan psixologiyasının zəif tərəflərindən istifadə edərək məlumat əldə etmək məqsədi daşıyır. Əsas kateqoriyalar:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-red-500 pl-4">
+                                    <h4 class="font-semibold text-red-700">Phishing</h4>
+                                    <p class="text-sm">E-mail, SMS və ya veb saytlar vasitəsilə aldatma</p>
+                                </div>
+                                <div class="border-l-4 border-orange-500 pl-4">
+                                    <h4 class="font-semibold text-orange-700">Pretexting</h4>
+                                    <p class="text-sm">Saxta şəxsiyyət yaradaraq məlumat əldə etmə</p>
+                                </div>
+                                <div class="border-l-4 border-yellow-500 pl-4">
+                                    <h4 class="font-semibold text-yellow-700">Baiting</h4>
+                                    <p class="text-sm">Maraqlı təklif və ya hədiyyə ilə aldatma</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4">
+                                    <h4 class="font-semibold text-blue-700">Tailgating</h4>
+                                    <p class="text-sm">Fiziki girişə icazəsiz daxil olma</p>
+                                </div>
+                                <div class="border-l-4 border-purple-500 pl-4">
+                                    <h4 class="font-semibold text-purple-700">Quid Pro Quo</h4>
+                                    <p class="text-sm">Xidmət müqabilində məlumat tələb etmə</p>
+                                </div>
+                                <div class="border-l-4 border-pink-500 pl-4">
+                                    <h4 class="font-semibold text-pink-700">Watering Hole</h4>
+                                    <p class="text-sm">Məqsədli veb saytları yoluxdurma</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Psixoloji Manipulyasiya Texnikaları</h3>
+                        <p>Sosial mühəndislər aşağıdakı psixoloji prinsiplərdən istifadə edirlər:</p>
+                        <div class="space-y-3">
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-red-800">Təcililik (Urgency)</h4>
+                                <p class="text-red-700 text-sm">Qurbanı tez qərar verməyə məcbur etmə</p>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-blue-800">Avtoritet (Authority)</h4>
+                                <p class="text-blue-700 text-sm">Rəhbər və ya mütəxəssis kimi təqdim olunma</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-green-800">Sosial Sübut (Social Proof)</h4>
+                                <p class="text-green-700 text-sm">Başqalarının da eyni şeyi etdiyini iddia etmə</p>
+                            </div>
+                            <div class="bg-yellow-50 p-3 rounded-lg">
+                                <h4 class="font-semibold text-yellow-800">Qorxu (Fear)</h4>
+                                <p class="text-yellow-700 text-sm">Mənfi nəticələrlə hədələmə</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Müdafiə Strategiyaları</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-900 mb-3">Texniki Tədbirlər</h4>
+                                <ul class="list-disc list-inside text-blue-800 space-y-1 text-sm">
+                                    <li>E-mail filtrasiya sistemləri</li>
+                                    <li>Web məzmun filtrasiyası</li>
+                                    <li>Endpoint Detection and Response (EDR)</li>
+                                    <li>Multi-factor Authentication (MFA)</li>
+                                    <li>Zero Trust Network Architecture</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-green-900 mb-3">İnsan Faktoru</h4>
+                                <ul class="list-disc list-inside text-green-800 space-y-1 text-sm">
+                                    <li>Mütəmadi təlim proqramları</li>
+                                    <li>Phishing simulyasiyaları</li>
+                                    <li>Təhlükəsizlik mədəniyyətinin formalaşdırılması</li>
+                                    <li>İnsident hesabat mexanizmləri</li>
+                                    <li>Təhlükəsizlik siyasətlərinin tətbiqi</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Eksperimental Nəticələr</h3>
+                        <p>500 işçi ilə aparılan eksperimentdə aşağıdakı nəticələr əldə edilmişdir:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-4 bg-red-50 rounded-lg">
+                                <div class="text-2xl font-bold text-red-600">78%</div>
+                                <div class="text-red-800 text-sm">İlkin phishing uğur dərəcəsi</div>
+                            </div>
+                            <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-2xl font-bold text-yellow-600">23%</div>
+                                <div class="text-yellow-800 text-sm">Təlim sonrası uğur dərəcəsi</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">71%</div>
+                                <div class="text-green-800 text-sm">Təhlükəsizlik artımı</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold">Tövsiyələr</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <ol class="list-decimal list-inside space-y-2">
+                                <li>Mütəmadi təlim və məlumatlandırma proqramları həyata keçirin</li>
+                                <li>Phishing simulyasiyalarını aylıq olaraq təşkil edin</li>
+                                <li>Çoxfaktorlu autentifikasiya sistemlərini tətbiq edin</li>
+                                <li>Şübhəli fəaliyyətləri hesabat vermək üçün asan mexanizmlər yaradın</li>
+                                <li>Təhlükəsizlik siyasətlərini müntəzəm yeniləyin</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Açar sözlər:</h4>
+                            <p class="text-gray-700">Sosial Mühəndislik, Phishing, İnsan Faktoru, Kibertəhlükəsizlik Təlimi</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Modal functions
+        function openModal(articleId) {
+            const modal = document.getElementById('article-modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+            
+            const article = articleContent[articleId];
+            if (article) {
+                title.textContent = article.title;
+                content.innerHTML = article.content;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('article-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('article-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95e6d11d44fde8f4',t:'MTc1MjM4OTExOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
