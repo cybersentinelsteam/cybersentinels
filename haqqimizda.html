@@ -50,35 +50,56 @@
                 transform: translateX(-50px);
             }
         }
+         /* Bu stiller yalnız kiçik ekranlar üçündür (mobil) */
+    @media (max-width: 767px) {
+        .nav-links {
+            display: none; /* Menyunu başlanğıcda gizlət */
+            position: absolute;
+            top: 68px; /* Naviqasiya panelinin hündürlüyünə uyğunlaşdırın */
+            left: 0;
+            right: 0;
+            background-color: white;
+            flex-direction: column;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .nav-links.active {
+            display: flex; /* Düyməyə basıldıqda menyunu göstər */
+        }
+
+        .nav-links a {
+            padding: 1rem 0; /* Linklər arasına boşluq əlavə et */
+        }
+    }
     </style>
 </head>
 <body class="bg-white">
-  <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                        <i class="fas fa-shield-alt text-white text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-bold text-gray-800">Cyber Sentinels</span>
+ <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-shield-alt text-white text-xl"></i>
                 </div>
-                
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Ana Səhifə</a>
-                    <a href="haqqimizda.html" class="text-blue-600 font-medium">Haqqımızda</a>
-                    <a href="tehsil.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Kurslar</a>
-                    <a href="bilikbazasi.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Bilik Bazası</a>
-                    <a href="elaqe.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Əlaqə</a>
-                </div>
-                
-                <button class="md:hidden text-gray-600">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                <span class="text-2xl font-bold text-gray-800">Cyber Sentinels</span>
             </div>
+            
+            <div id="navLinks" class="nav-links md:flex md:space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Ana Səhifə</a>
+                <a href="haqqimizda.html" class="text-blue-600 font-medium">Haqqımızda</a>
+                <a href="tehsil.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Kurslar</a>
+                <a href="bilikbazasi.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Bilik Bazası</a>
+                <a href="elaqe.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Əlaqə</a>
+            </div>
+            
+            <button id="hamburger" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
         </div>
-    </nav>
-
+    </div>
+</nav>
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-20">
         <div class="wave-animation"></div>
