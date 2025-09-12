@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Haqqımızda - Cyber Sentinels</title>
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7xsoIup8VTxma5V_WJS3EBxP7uogFoBdf5zJqLARPtNYUnNWf9MiDOmUINEN1XFBy8E8_wmP6k0W9gsY5ysgKYBRiaOET-IE0Z3jMnh-kC5Qh_rlD7yXBXSjTClQerZaIbuIhFXN-rMGrLOMz1fjQNtr6uKaYZbJBMNwb8sC6A7JRoLHz8y94AQp2Q2DpdTNsLKOSNS3G06lUwOM0Hk6dw" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .gradient-bg {
@@ -339,9 +339,7 @@
         </div>
     </footer>
 
-    <script>
-      // Mobile menu toggle və digər funksiyalar
-document.addEventListener('DOMContentLoaded', function() {
+    <sdocument.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -353,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
 
-            // Mobil menyuda linkə klikləyəndə menyunu bağla
+            // Mobil menyudan linkə klikləyərkən menyunu bağla
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenu) {
                 mobileMenu.classList.add('hidden');
@@ -372,31 +370,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Digər button-lar üçün notification (menu-toggle istisna)
-    document.querySelectorAll('button:not(#menu-toggle)').forEach(button => {
-        button.addEventListener('click', function() {
-            const buttonText = this.textContent.trim();
+    const otherButtons = document.querySelectorAll('button');
+    otherButtons.forEach(button => {
+        if (button.id !== 'menu-toggle') {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent.trim();
 
-            const notification = document.createElement('div');
-            notification.className =
-                'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
-            notification.innerHTML =
-                `<i class="fas fa-check mr-2"></i>${buttonText} - Tezliklə əlçatan!`;
+                const notification = document.createElement('div');
+                notification.className =
+                    'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+                notification.innerHTML =
+                    `<i class="fas fa-check mr-2"></i>${buttonText} - Tezliklə əlçatan!`;
 
-            document.body.appendChild(notification);
+                document.body.appendChild(notification);
 
-            setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
-
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
                 setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        });
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            });
+        }
     });
 });
 
